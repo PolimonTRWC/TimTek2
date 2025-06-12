@@ -24,7 +24,6 @@
 @if ($games->count())
     @foreach ($games as $game)
         <div style="display: flex; align-items: center; background-color: #222; color: white; padding: 10px; border-radius: 6px; margin-bottom: 1rem;">
-            <!-- Image -->
             <div style="flex-shrink: 0; margin-right: 15px;">
                 @if($game->image)
                     <img src="{{ asset('storage/' . $game->image) }}" alt="Game Image" style="height: 100px; width: auto; border-radius: 6px;">
@@ -35,7 +34,6 @@
                 @endif
             </div>
 
-            <!-- Content -->
             <div style="flex-grow: 1;">
                 <h3 style="font-size: 1.5rem; font-weight: 700; margin: 0 0 5px 0;">{{ $game->name }}</h5>
                 <p style="margin: 0 0 5px 0;"><strong>Category:</strong> {{ $game->category->name ?? '—' }}</p>
@@ -48,9 +46,9 @@
                     </div>
 
                     <div>
-                        <a href="{{ route('games.edit', $game) }}" 
-                           style="background-color: #eeee02; color: black; padding: 6px 10px; margin-right: 8px; border-radius: 6px; text-decoration: none; font-weight: bold;">
-                           Edit
+                        <a href="{{ route('games.show', $game) }}" 
+                            style="background-color: #eeee02; color: black; padding: 6px 10px; margin-right: 8px; border-radius: 6px; text-decoration: none; font-weight: bold;">
+                           View
                         </a>
                         <form action="{{ route('games.destroy', $game) }}" method="POST" class="d-inline" onsubmit="return confirm('Are you sure?')" style="display: inline;">
                             @csrf

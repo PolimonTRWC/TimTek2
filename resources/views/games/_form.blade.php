@@ -5,7 +5,7 @@
     }
 </style>
 <div style="background-color: #2e2e2e; color: white; min-height: 100vh; padding: 20px;">
-<!-- Name -->
+
 <div style="margin-bottom: 16px;">
     <label for="name" style="display: block; margin-bottom: 6px; font-weight: 600;">Name:</label>
     <input 
@@ -18,7 +18,6 @@
     >
 </div>
 
-<!-- Image Field -->
 <div style="margin-bottom: 16px;">
     <label for="image" style="display: block; margin-bottom: 6px; font-weight: 600;">Image:</label>
     <input 
@@ -38,7 +37,6 @@
     @endif
 </div>
 
-<!-- Players -->
 <div style="margin-bottom: 16px;">
     <label for="players" style="display: block; margin-bottom: 6px; font-weight: 600;">Number of players (1–20):</label>
     <input 
@@ -53,7 +51,6 @@
     >
 </div>
 
-<!-- Date Played -->
 <div style="margin-bottom: 16px;">
     <label for="played_at" style="display: block; margin-bottom: 6px; font-weight: 600;">Date Played:</label>
     <input 
@@ -65,7 +62,6 @@
     >
 </div>
 
-<!-- Category -->
 <div style="margin-bottom: 16px;">
     <label for="category_id" style="display: block; margin-bottom: 6px; font-weight: 600;">Category:</label>
     <select 
@@ -83,7 +79,6 @@
     </select>
 </div>
 
-<!-- Notes -->
 <div style="margin-bottom: 16px;">
     <label for="note" style="display: block; margin-bottom: 6px; font-weight: 600;">Note:</label>
     <textarea 

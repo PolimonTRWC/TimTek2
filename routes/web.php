@@ -7,7 +7,7 @@ use App\Http\Controllers\GameController;
 Route::get('/', function () {
     return view('welcome');
 });
-
+Route::get('/games/{game}', [GameController::class, 'show'])->name('games.show');
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
@@ -20,6 +20,6 @@ Route::middleware('auth')->group(function () {
     Route::resource('games', GameController::class);
 });
 
-// Auth routes from Laravel Breeze
+// Auth No Laravel breeze
 require __DIR__.'/auth.php';
 require __DIR__.'/profile.php';

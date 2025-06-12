@@ -2,7 +2,6 @@
 @section('content')
     <div style="padding: 2rem 1rem; max-width: 600px; margin: 0 auto; background-color:rgba(249, 250, 251, 0.17); border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
 
-        <!-- Back to Dashboard button -->
         <div style="margin-bottom: 24px;">
             <a href="{{ route('dashboard') }}"
                style="background-color: #2563eb; color: white; padding: 8px 12px; margin: 5px 5px; border-radius: 4px; text-decoration: none;">

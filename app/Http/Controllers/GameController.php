@@ -29,6 +29,11 @@ class GameController extends Controller
         $categories = Category::all();
         return view('games.create', compact('game', 'categories'));
     }
+    public function show(Game $game)
+    {
+        $this->authorize('view', $game);
+        return view('games.show', compact('game'));
+    }
 
 
     public function store(Request $request){
