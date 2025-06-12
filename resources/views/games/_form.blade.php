@@ -4,10 +4,13 @@
     <input type="text" name="name" id="name" value="{{ old('name', $game->name ?? '') }}" required>
 </div>
 
-<!-- Image -->
+<!-- Image Field -->
 <div class="mb-3">
     <label for="image">Image:</label>
-    <input type="file" name="image" id="image">
+    <input type="file" name="image" id="image" class="form-control"> <!-- Added class for better styling -->
+    @error('image')
+        <div class="text-danger">{{ $message }}</div> <!-- Added error display -->
+    @enderror
     @if (!empty($game->image))
         <p>Current image: <img src="{{ asset('storage/' . $game->image) }}" alt="Game image" width="100"></p>
     @endif

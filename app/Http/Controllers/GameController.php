@@ -34,6 +34,8 @@ class GameController extends Controller
     public function store(Request $request){
         $this->authorize('create', Game::class);
 
+        \Log::info('Store method called', ['request_data' => $request->except('_token')]);
+        
         $request->validate([
             'name' => 'required|string',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
@@ -50,17 +52,28 @@ class GameController extends Controller
         $game->category_id = $request->category_id;
 
         if ($request->hasFile('image')) {
-            $path = $request->file('image')->store('games', 'public');
+            \Log::info('File found in request', [
+                'original_name' => $request->file('image')->getClientOriginalName(),
+                'size' => $request->file('image')->getSize()
+            ]);
+            
+            $path = $request->file('image')->store('game_images', 'public');
             $game->image = $path;
+            
+            \Log::info('File stored at:', ['path' => $path]);
+        } else {
+            \Log::info('No image file found in request');
         }
 
         $game->save();
+
         if ($request->filled('note')) {
             $game->notes()->create(['content' => $request->note]);
         }
 
         return redirect()->route('games.index')->with('success', 'Game created successfully.');
     }
+
 
 
     public function edit(Game $game){   
@@ -93,6 +106,7 @@ class GameController extends Controller
 
         return redirect()->route('games.index')->with('success', 'Game updated successfully.');
     }
+
 
     public function destroy(Game $game)
     {
