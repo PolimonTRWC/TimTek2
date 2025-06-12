@@ -7,6 +7,7 @@ use App\Http\Controllers\GameController;
 Route::get('/', function () {
     return view('welcome');
 });
+Route::resource('games', GameController::class)->middleware(['auth']);
 Route::get('/games/{game}', [GameController::class, 'show'])->name('games.show');
 Route::get('/dashboard', function () {
     return view('dashboard');
