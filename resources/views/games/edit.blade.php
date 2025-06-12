@@ -7,7 +7,7 @@
         @csrf
         @method('PUT')
         @include('games._form')
-        <button type="submit">Update</button>
+        <button type="submit" style="background-color: #eeee02; color: black; padding: 6px 10px; margin-right: 8px; border-radius: 6px; text-decoration: none; font-weight: bold;">Update</button>
     </form>
 
 @endsection

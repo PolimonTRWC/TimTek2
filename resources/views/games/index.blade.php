@@ -1,74 +1,70 @@
-@extends('layouts.app')
 
-@section('content')
-    <h1>Games</h1>
-
+<style>
+     body {
+        margin: 0;
+        padding: 0;
+    }
+</style>
+<div style="background-color: #2e2e2e; color: white; min-height: 100vh; padding: 20px;">
+    <h1 >Games</h1>
     {{-- Back to Dashboard Button --}}
-    <a href="{{ route('dashboard') }}" class="btn btn-secondary" style="margin-right: 10px;">← Back to Dashboard</a>
+        <a href="{{ route('dashboard') }}" 
+           style="background-color: #2563eb; color: white; padding: 8px 12px; margin: 5px 5px; border-radius: 4px; text-decoration: none;">
+        Back to Dashboard
+        </a>
 
     {{-- Add New Game Button --}}
-    <a href="{{ route('games.create') }}" class="btn btn-primary">Add New Game</a>
+    <a href="{{ route('games.create') }}" 
+           style="background-color: #2563eb; color: white; padding: 8px 12px; margin: 5px 5px; border-radius: 4px; text-decoration: none;">
+        Add New Game
+    </a>
+    <br>
+    <br>
+    <br>
+@if ($games->count())
+    @foreach ($games as $game)
+        <div style="display: flex; align-items: center; background-color: #222; color: white; padding: 10px; border-radius: 6px; margin-bottom: 1rem;">
+            <!-- Image -->
+            <div style="flex-shrink: 0; margin-right: 15px;">
+                @if($game->image)
+                    <img src="{{ asset('storage/' . $game->image) }}" alt="Game Image" style="height: 100px; width: auto; border-radius: 6px;">
+                @else
+                    <div style="height: 100px; width: 100px; background-color: #555; display: flex; align-items: center; justify-content: center; border-radius: 6px;">
+                        <span>No Image</span>
+                    </div>
+                @endif
+            </div>
 
-    @if ($games->count())
-        <table border="1" cellpadding="8" cellspacing="0" style="margin-top: 20px;">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    {{-- No description as you said it should be removed --}}
-                    <th>Category</th>
-                    <th>Notes</th>
-                    <th>Image</th>
-                    <th>Players</th>
-                    <th>Date Played</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-                        <tbody>
-                @foreach ($games as $game)
-                    <tr>
-                        <td>{{ $game->name }}</td>
-                        
-                        {{-- Category --}}
-                        <td>{{ $game->category ? $game->category->name : 'No category' }}</td>
-                        
-                        {{-- Notes --}}
-                        <td>
-                            @if ($game->notes->count() > 0)
-                                <ul style="padding-left: 20px; margin: 0;">
-                                    @foreach ($game->notes as $note)
-                                        <li>{{ $note->content }}</li>
-                                    @endforeach
-                                </ul>
-                            @else
-                                <span>No notes</span>
-                            @endif
-                        </td>
+            <!-- Content -->
+            <div style="flex-grow: 1;">
+                <h3 style="font-size: 1.5rem; font-weight: 700; margin: 0 0 5px 0;">{{ $game->name }}</h5>
+                <p style="margin: 0 0 5px 0;"><strong>Category:</strong> {{ $game->category->name ?? '—' }}</p>
+                <p style="margin: 0 0 10px 0;"><strong>Note:</strong> {{ $game->notes->first()->content ?? '—' }}</p>
 
-                        {{-- Image --}}
-                        <td>
-                            @if ($game->image)
-                                <img src="{{ asset('storage/' . $game->image) }}" alt="Game image" width="100">
-                            @else
-                                <span>No image</span>
-                            @endif
-                        </td>
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <div>
+                        <p style="margin: 0;"><strong>Players:</strong> {{ $game->players }}</p>
+                        <p style="margin: 0;"><strong>Played:</strong> {{ $game->played_at ?? '—' }}</p>
+                    </div>
 
-                        <td>{{ $game->players }}</td>
-                        <td>{{ $game->played_at ? \Carbon\Carbon::parse($game->played_at)->format('Y-m-d') : 'Not set' }}</td>
-
-                        <td>
-                            <a href="{{ route('games.edit', $game) }}">Edit</a>
-                            <form action="{{ route('games.destroy', $game) }}" method="POST" style="display:inline;">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" onclick="return confirm('Are you sure?')">Delete</button>
-                            </form>
-                        </td>
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
-    @else
-        <p>No games found.</p>
-    @endif
-@endsection
+                    <div>
+                        <a href="{{ route('games.edit', $game) }}" 
+                           style="background-color: #eeee02; color: black; padding: 6px 10px; margin-right: 8px; border-radius: 6px; text-decoration: none; font-weight: bold;">
+                           Edit
+                        </a>
+                        <form action="{{ route('games.destroy', $game) }}" method="POST" class="d-inline" onsubmit="return confirm('Are you sure?')" style="display: inline;">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" style="background-color: #d70606; color: white; padding: 6px 10px; border: none; border-radius: 6px; font-weight: bold; cursor: pointer;">
+                                Delete
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endforeach
+@else
+    <p>No games found.</p>
+@endif
+</div>
