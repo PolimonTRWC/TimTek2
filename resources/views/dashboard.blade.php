@@ -28,8 +28,8 @@
 
     <p>
         <a href="{{ route('profile.edit') }}" 
-           style="background-color: #4f46e5; color: white; padding: 8px 12px; border-radius: 4px; text-decoration: none;">
-           Profile
+        style="background-color: #4f46e5; color: white; padding: 8px 12px; border-radius: 4px; text-decoration: none;">
+        Manage Profile
         </a>
     </p>
 @endsection

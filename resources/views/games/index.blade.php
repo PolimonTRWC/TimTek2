@@ -3,6 +3,10 @@
 @section('content')
     <h1>Games</h1>
 
+    {{-- Back to Dashboard Button --}}
+    <a href="{{ route('dashboard') }}" class="btn btn-secondary" style="margin-right: 10px;">← Back to Dashboard</a>
+
+    {{-- Add New Game Button --}}
     <a href="{{ route('games.create') }}" class="btn btn-primary">Add New Game</a>
 
     @if ($games->count())
@@ -33,10 +37,10 @@
                         <td>{{ $game->played_at ? \Carbon\Carbon::parse($game->played_at)->format('Y-m-d') : 'Not set' }}</td>
                         <td>
                             <a href="{{ route('games.edit', $game) }}">Edit</a>
-                            <form action="{{ route('games.destroy', $game) }}" method="POST" style="display:inline-block;">
+                            <form action="{{ route('games.destroy', $game) }}" method="POST" style="display:inline;">
                                 @csrf
                                 @method('DELETE')
-                                <button onclick="return confirm('Delete this game?')" type="submit">Delete</button>
+                                <button type="submit" onclick="return confirm('Are you sure?')">Delete</button>
                             </form>
                         </td>
                     </tr>
