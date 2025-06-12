@@ -5,9 +5,12 @@ namespace App\Http\Controllers;
 use App\Models\Game;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class GameController extends Controller
 {
+    use AuthorizesRequests;
+
     public function index() {
         if (Auth::user()->is_admin) {
             $games = Game::all();
@@ -18,17 +21,20 @@ class GameController extends Controller
         return view('games.index', compact('games'));
     }
 
-
     public function create(){
-        $predefinedGames = ['Catan', 'Chess', 'Monopoly', 'Carcassonne', 'Ticket to Ride', 'Codenames'];
-        return view('games.create', compact('predefinedGames'));
+        $this->authorize('create', Game::class);
+        $game = new Game();
+
+        return view('games.create', compact('game'));
     }
 
     public function store(Request $request){
+        $this->authorize('create', Game::class);
+
         $request->validate([
-            'name' => 'required|unique:games,name',
+            'name' => 'required|string',
             'description' => 'nullable|string',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'players' => 'required|integer|min:1|max:20',
             'played_at' => 'nullable|date',
         ]);
@@ -51,10 +57,13 @@ class GameController extends Controller
     }
 
 
+    public function edit(Game $game){   
+        $this->authorize('update', $game);
+        return view('games.edit', compact('game'));
+    }
+
     public function update(Request $request, Game $game){
-        if ($game->user_id !== Auth::id() && !Auth::user()->is_admin) {
-            abort(403, 'Unauthorized action.');
-        }
+        $this->authorize('update', $game);
 
         $request->validate([
             'name' => 'required|unique:games,name,' . $game->id,
@@ -77,21 +86,10 @@ class GameController extends Controller
 
         return redirect()->route('games.index')->with('success', 'Game updated successfully.');
     }
-    public function edit(Game $game){   
-        if ($game->user_id !== Auth::id() && !Auth::user()->is_admin) {
-            abort(403, 'Unauthorized action.');
-        }
-
-        $predefinedGames = ['Catan', 'Chess', 'Monopoly', 'Carcassonne', 'Ticket to Ride', 'Codenames'];
-        return view('games.edit', compact('game', 'predefinedGames'));
-    }
-
 
     public function destroy(Game $game)
     {
-        if ($game->user_id !== Auth::id() && !Auth::user()->is_admin) {
-            abort(403);
-        }
+        $this->authorize('delete', $game);
 
         $game->delete();
         return redirect()->route('games.index');
