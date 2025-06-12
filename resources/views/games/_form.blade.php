@@ -4,12 +4,6 @@
     <input type="text" name="name" id="name" value="{{ old('name', $game->name ?? '') }}" required>
 </div>
 
-<!-- Description -->
-<div class="mb-3">
-    <label for="description">Description:</label>
-    <textarea name="description" id="description">{{ old('description', $game->description ?? '') }}</textarea>
-</div>
-
 <!-- Image -->
 <div class="mb-3">
     <label for="image">Image:</label>
@@ -30,3 +24,21 @@
     <label for="played_at">Date Played:</label>
     <input type="date" name="played_at" id="played_at" value="{{ old('played_at', isset($game->played_at) ? \Carbon\Carbon::parse($game->played_at)->format('Y-m-d') : '') }}">
 </div>
+<!-- Category -->
+<div class="mb-3">
+    <label for="category_id">Category:</label>
+    <select name="category_id" id="category_id" class="form-control">
+        <option value="">-- Choose a category --</option>
+        @foreach($categories as $category)
+            <option value="{{ $category->id }}" {{ old('category_id', $game->category_id ?? '') == $category->id ? 'selected' : '' }}>
+                {{ $category->name }}
+            </option>
+        @endforeach
+    </select>
+</div>
+<!-- Notes -->
+<div class="mb-3">
+    <label for="note">Note:</label>
+    <textarea name="note" id="note">{{ old('note') }}</textarea>
+</div>
+

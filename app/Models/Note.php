@@ -1,21 +1,18 @@
 <?php
 
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Category extends Model
+class Note extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name'];
+    protected $fillable = ['game_id', 'content'];
 
-
-    public function games()
+    public function game()
     {
-        return $this->hasMany(Game::class);
+        return $this->belongsTo(Game::class);
     }
 }
-

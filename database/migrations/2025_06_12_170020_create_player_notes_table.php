@@ -9,21 +9,22 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void
+    public function up()
     {
-        Schema::create('categories', function (Blueprint $table) {
-        $table->id();
-        $table->string('name')->unique();
-        $table->timestamps();
-    });
-
+        Schema::create('notes', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('game_id')->constrained()->onDelete('cascade');
+            $table->text('content');
+            $table->timestamps();
+        });
     }
+
 
     /**
      * Reverse the migrations.
      */
     public function down(): void
     {
-        Schema::dropIfExists('categories');
+        Schema::dropIfExists('player_notes');
     }
 };
