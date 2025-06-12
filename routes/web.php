@@ -24,12 +24,15 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
+    Route::resource('games', GameController::class)->middleware('auth');
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::get('/my-games', [GameRecordController::class, 'myGames'])->name('records.my_games');
 });
 Route::get('/my-games', [GameRecordController::class, 'myGames'])->name('records.my_games');
+Route::get('/games/{game}/edit', [GameController::class, 'edit'])->name('games.edit');
+
 
 
 require __DIR__.'/auth.php';
